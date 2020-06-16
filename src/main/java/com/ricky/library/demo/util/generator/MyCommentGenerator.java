@@ -1,4 +1,4 @@
-package com.ricky.library.demo.utils.generator;
+package com.ricky.library.demo.util.generator;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;

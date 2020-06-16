@@ -1,4 +1,4 @@
-package com.ricky.library.demo.utils.type;
+package com.ricky.library.demo.util.type;
 
 public enum Enabled {
     enabled(1), //启用

@@ -1,6 +1,6 @@
 package com.ricky.library.demo.domain;
 
-import com.ricky.library.demo.utils.type.BaseEntity;
+import com.ricky.library.demo.util.type.BaseEntity;
 import java.util.Date;
 
 /**
@@ -18,7 +18,7 @@ public class Book extends BaseEntity {
      *
      * @mbggenerated
      */
-    private String bookId;
+    private Integer bookId;
 
     /**
      *
@@ -100,7 +100,7 @@ public class Book extends BaseEntity {
      *
      * @mbggenerated
      */
-    public String getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
@@ -112,8 +112,8 @@ public class Book extends BaseEntity {
      *
      * @mbggenerated
      */
-    public void setBookId(String bookId) {
-        this.bookId = bookId == null ? null : bookId.trim();
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     /**

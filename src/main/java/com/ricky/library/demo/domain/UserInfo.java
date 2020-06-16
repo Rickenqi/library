@@ -1,6 +1,6 @@
 package com.ricky.library.demo.domain;
 
-import com.ricky.library.demo.utils.type.BaseEntity;
+import com.ricky.library.demo.util.type.BaseEntity;
 
 /**
  *

@@ -16,8 +16,8 @@
 
     <typeHandlers>
         <typeHandler
-                javaType="com.ricky.library.demo.utils.type.Enabled"
-                handler="com.ricky.library.demo.utils.type.EnabledTypeHandler"/>
+                javaType="com.ricky.library.demo.util.type.Enabled"
+                handler="com.ricky.library.demo.util.type.EnabledTypeHandler"/>
     </typeHandlers>
 
     <environments default="development">

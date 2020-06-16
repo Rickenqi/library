@@ -1,4 +1,4 @@
-package com.ricky.library.demo.utils.type;
+package com.ricky.library.demo.util.type;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;

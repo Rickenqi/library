@@ -1,4 +1,4 @@
-package com.ricky.library.demo.utils.result;
+package com.ricky.library.demo.util.result;
 
 import lombok.Data;
 

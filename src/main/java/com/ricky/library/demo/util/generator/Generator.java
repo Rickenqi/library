@@ -1,4 +1,4 @@
-package com.ricky.library.demo.utils.generator;
+package com.ricky.library.demo.util.generator;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;

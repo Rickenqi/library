@@ -1,4 +1,4 @@
-package com.ricky.library.demo.utils.type;
+package com.ricky.library.demo.util.type;
 
 public class BaseEntity {
     private Long id;
