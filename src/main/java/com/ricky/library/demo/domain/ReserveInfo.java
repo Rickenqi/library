@@ -1,5 +1,6 @@
 package com.ricky.library.demo.domain;
 
+
 import com.ricky.library.demo.util.type.BaseEntity;
 
 /**
@@ -53,7 +54,7 @@ public class ReserveInfo extends BaseEntity {
      *
      * @mbggenerated
      */
-    private String bookId;
+    private Integer bookId;
 
     /**
      *
@@ -62,7 +63,7 @@ public class ReserveInfo extends BaseEntity {
      *
      * @mbggenerated
      */
-    private String listId;
+    private Integer listId;
 
     /**
      *
@@ -177,7 +178,7 @@ public class ReserveInfo extends BaseEntity {
      *
      * @mbggenerated
      */
-    public String getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
@@ -189,8 +190,8 @@ public class ReserveInfo extends BaseEntity {
      *
      * @mbggenerated
      */
-    public void setBookId(String bookId) {
-        this.bookId = bookId == null ? null : bookId.trim();
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     /**
@@ -201,7 +202,7 @@ public class ReserveInfo extends BaseEntity {
      *
      * @mbggenerated
      */
-    public String getListId() {
+    public Integer getListId() {
         return listId;
     }
 
@@ -213,8 +214,8 @@ public class ReserveInfo extends BaseEntity {
      *
      * @mbggenerated
      */
-    public void setListId(String listId) {
-        this.listId = listId == null ? null : listId.trim();
+    public void setListId(Integer listId) {
+        this.listId = listId;
     }
 
     /**

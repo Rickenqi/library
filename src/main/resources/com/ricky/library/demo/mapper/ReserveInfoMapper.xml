@@ -10,8 +10,8 @@
     <result column="reader_id" jdbcType="VARCHAR" property="readerId" />
     <result column="rent_limit" jdbcType="VARCHAR" property="rentLimit" />
     <result column="book_ISBN" jdbcType="VARCHAR" property="bookIsbn" />
-    <result column="book_id" jdbcType="VARCHAR" property="bookId" />
-    <result column="list_id" jdbcType="VARCHAR" property="listId" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="list_id" jdbcType="INTEGER" property="listId" />
     <result column="reserve_agent" jdbcType="VARCHAR" property="reserveAgent" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -142,7 +142,7 @@
       book_ISBN, book_id, list_id, 
       reserve_agent)
     values (#{infoId,jdbcType=INTEGER}, #{readerId,jdbcType=VARCHAR}, #{rentLimit,jdbcType=VARCHAR}, 
-      #{bookIsbn,jdbcType=VARCHAR}, #{bookId,jdbcType=VARCHAR}, #{listId,jdbcType=VARCHAR}, 
+      #{bookIsbn,jdbcType=VARCHAR}, #{bookId,jdbcType=INTEGER}, #{listId,jdbcType=INTEGER}, 
       #{reserveAgent,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ricky.library.demo.domain.ReserveInfo">
@@ -188,10 +188,10 @@
         #{bookIsbn,jdbcType=VARCHAR},
       </if>
       <if test="bookId != null">
-        #{bookId,jdbcType=VARCHAR},
+        #{bookId,jdbcType=INTEGER},
       </if>
       <if test="listId != null">
-        #{listId,jdbcType=VARCHAR},
+        #{listId,jdbcType=INTEGER},
       </if>
       <if test="reserveAgent != null">
         #{reserveAgent,jdbcType=VARCHAR},
@@ -228,10 +228,10 @@
         book_ISBN = #{record.bookIsbn,jdbcType=VARCHAR},
       </if>
       <if test="record.bookId != null">
-        book_id = #{record.bookId,jdbcType=VARCHAR},
+        book_id = #{record.bookId,jdbcType=INTEGER},
       </if>
       <if test="record.listId != null">
-        list_id = #{record.listId,jdbcType=VARCHAR},
+        list_id = #{record.listId,jdbcType=INTEGER},
       </if>
       <if test="record.reserveAgent != null">
         reserve_agent = #{record.reserveAgent,jdbcType=VARCHAR},
@@ -251,8 +251,8 @@
       reader_id = #{record.readerId,jdbcType=VARCHAR},
       rent_limit = #{record.rentLimit,jdbcType=VARCHAR},
       book_ISBN = #{record.bookIsbn,jdbcType=VARCHAR},
-      book_id = #{record.bookId,jdbcType=VARCHAR},
-      list_id = #{record.listId,jdbcType=VARCHAR},
+      book_id = #{record.bookId,jdbcType=INTEGER},
+      list_id = #{record.listId,jdbcType=INTEGER},
       reserve_agent = #{record.reserveAgent,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -275,10 +275,10 @@
         book_ISBN = #{bookIsbn,jdbcType=VARCHAR},
       </if>
       <if test="bookId != null">
-        book_id = #{bookId,jdbcType=VARCHAR},
+        book_id = #{bookId,jdbcType=INTEGER},
       </if>
       <if test="listId != null">
-        list_id = #{listId,jdbcType=VARCHAR},
+        list_id = #{listId,jdbcType=INTEGER},
       </if>
       <if test="reserveAgent != null">
         reserve_agent = #{reserveAgent,jdbcType=VARCHAR},
@@ -295,8 +295,8 @@
     set reader_id = #{readerId,jdbcType=VARCHAR},
       rent_limit = #{rentLimit,jdbcType=VARCHAR},
       book_ISBN = #{bookIsbn,jdbcType=VARCHAR},
-      book_id = #{bookId,jdbcType=VARCHAR},
-      list_id = #{listId,jdbcType=VARCHAR},
+      book_id = #{bookId,jdbcType=INTEGER},
+      list_id = #{listId,jdbcType=INTEGER},
       reserve_agent = #{reserveAgent,jdbcType=VARCHAR}
     where info_id = #{infoId,jdbcType=INTEGER}
   </update>

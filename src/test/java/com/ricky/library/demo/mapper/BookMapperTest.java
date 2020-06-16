@@ -14,7 +14,7 @@ public class BookMapperTest extends BaseMapperTest {
         SqlSession sqlSession = getSqlSession();
         try {
             BookMapper bookMapper = sqlSession.getMapper(BookMapper.class);
-            Book book = bookMapper.selectByPrimaryKey("1");
+            Book book = bookMapper.selectByISBN("9787508321752");
             Assert.assertNotNull(book);
         } finally {
             //不要忘记关闭 sqlSession
@@ -28,7 +28,7 @@ public class BookMapperTest extends BaseMapperTest {
         try {
             BookMapper bookMapper = sqlSession.getMapper(BookMapper.class);
             Book book = new Book();
-            book.setBookId("1");
+            book.setBookId(1);
             //将新建的对象插入数据库中，特别注意，这里的返回值 result 是执行的 SQL 影响的行数
             int result = bookMapper.insert(book);
             //只插入 1 条数据

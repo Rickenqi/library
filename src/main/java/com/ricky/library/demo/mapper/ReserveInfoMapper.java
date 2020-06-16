@@ -2,8 +2,9 @@ package com.ricky.library.demo.mapper;
 
 import com.ricky.library.demo.domain.ReserveInfo;
 import com.ricky.library.demo.domain.example.ReserveInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ReserveInfoMapper {
     /**
