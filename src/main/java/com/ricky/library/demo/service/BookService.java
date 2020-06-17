@@ -3,6 +3,7 @@ package com.ricky.library.demo.service;
 import com.ricky.library.demo.domain.Book;
 import com.ricky.library.demo.domain.BookList;
 import com.ricky.library.demo.domain.ReserveInfo;
+import com.ricky.library.demo.domain.example.BookExample;
 import com.ricky.library.demo.mapper.BookListMapper;
 import com.ricky.library.demo.mapper.BookMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
@@ -11,7 +12,10 @@ import com.ricky.library.demo.util.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
+import java.security.cert.Certificate;
 import java.util.List;
 
 @Service
@@ -93,5 +97,57 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
+    Result getBook(Book book, int pageNum, int pageSize) {
+        BookExample bookExample = new BookExample();
+        Result result = new Result();
+        List<Book> books;
+        BookExample.Criteria criteria = bookExample.createCriteria();
+        criteria.andBookIdIsNotNull();
+        if(book.getBookIsbn() != null)
+            criteria.andBookIsbnEqualTo(book.getBookIsbn());
+        if(book.getBookName() != null)
+            criteria.andBookNameEqualTo(book.getBookName());
+        if(book.getBookAuthor() != null)
+            criteria.andBookAuthorEqualTo(book.getBookAuthor());
+        if(book.getBookPublisher() != null)
+            criteria.andBookAuthorEqualTo(book.getBookAuthor());
+        bookExample.or(criteria);
+        try {
+            books = bookMapper.selectByExample(bookExample);
+            if(books == null) {
+                result.setResultCode(ResultCode.RESULE_DATA_NONE);
+                return result;
+            }
+        } catch (DataAccessException e){
+            System.out.println(e);
+            result.setResultCode(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+            return result;
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        result.setData(PageInfo.of(books));
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
+    }
 
+//    Result getAllBooks(int pageNum, int pageSize) {
+//        Result result = new Result();
+//        BookExample bookExample = new BookExample();
+//        List<Book> books;
+//        bookExample.createCriteria().andBookIdIsNotNull();
+//        try {
+//            books = bookMapper.selectByExample(bookExample);
+//            if(books == null) {
+//                result.setResultCode(ResultCode.RESULE_DATA_NONE);
+//                return result;
+//            }
+//        } catch (DataAccessException e) {
+//            System.out.println(e);
+//            result.setResultCode(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+//            return result;
+//        }
+//        PageHelper.startPage(pageNum, pageSize);
+//        result.setData(PageInfo.of(books));
+//        result.setResultCode(ResultCode.SUCCESS);
+//        return result;
+//    }
 }
