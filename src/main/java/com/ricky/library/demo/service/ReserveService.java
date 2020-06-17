@@ -38,7 +38,7 @@ public class ReserveService {
         }
     }
     
-    ResultCode addReserve(String book_ISBN, int days, String readerId) {
+    public ResultCode addReserve(String book_ISBN, int days, String readerId) {
         Book book;
         ReserveInfo reserveInfo = new ReserveInfo();
         // 生成借书日期，还书日期
@@ -74,7 +74,7 @@ public class ReserveService {
         return ResultCode.SUCCESS;
     }
 
-    Result getReserve(String readerId ) {
+    public Result getReserve(String readerId ) {
         Result result = new Result();
         List<ReserveInfo> reserveInfoList = reserveInfoMapper.selectByReaderId(readerId);
         result.setData(reserveInfoList);

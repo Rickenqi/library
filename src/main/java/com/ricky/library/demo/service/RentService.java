@@ -48,7 +48,7 @@ public class RentService {
      * @param readerId
      * @return
      */
-    ResultCode rentBook(Integer ListId, String readerId) {
+    public ResultCode rentBook(Integer ListId, String readerId) {
         Book book;
         BookList bookList;
         RentInfo rentInfo = new RentInfo();
@@ -84,7 +84,7 @@ public class RentService {
      * @param ListId
      * @return
      */
-    ResultCode returnBook(Integer ListId) {
+    public ResultCode returnBook(Integer ListId) {
         BookList bookList;
         try {
             bookList = bookListMapper.selectByPrimaryKey(ListId);
@@ -117,7 +117,7 @@ public class RentService {
      * @param rentInfo
      * @return
      */
-    ResultCode getRentInfo(String readerId, List<RentInfo> rentInfo) {
+    public ResultCode getRentInfo(String readerId, List<RentInfo> rentInfo) {
         try {
            // 需要引用传值请用addAll
            rentInfo.addAll(rentInfoMapper.selectByReaderId(readerId));

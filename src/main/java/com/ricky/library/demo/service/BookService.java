@@ -29,7 +29,7 @@ public class BookService {
     @Autowired
     ReserveInfoMapper reserveInfoMapper;
 
-    ResultCode addBook(Book book) {
+    public ResultCode addBook(Book book) {
         book.setBookNum(0);
         try {
             bookMapper.insertSelective(book);
@@ -40,7 +40,7 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
-    ResultCode deleteBook(String book_ISBN) {
+    public ResultCode deleteBook(String book_ISBN) {
         Book book;
         try {
             book = bookMapper.selectByISBN(book_ISBN);
@@ -54,7 +54,7 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
-    ResultCode addBookList(BookList bookList, String book_ISBN) {
+    public ResultCode addBookList(BookList bookList, String book_ISBN) {
         Book book;
         try {
             book = bookMapper.selectByISBN(book_ISBN);
@@ -84,7 +84,7 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
-    ResultCode deleteBookList(Integer listId, BookList bookList) {
+    public ResultCode deleteBookList(Integer listId, BookList bookList) {
         try {
             bookList = bookListMapper.selectByPrimaryKey(listId);
             if(bookList == null)
@@ -97,7 +97,7 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
-    Result getBook(Book book, int pageNum, int pageSize) {
+    public Result getBook(Book book, int pageNum, int pageSize) {
         BookExample bookExample = new BookExample();
         Result result = new Result();
         List<Book> books;
