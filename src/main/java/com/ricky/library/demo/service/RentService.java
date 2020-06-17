@@ -3,9 +3,11 @@ package com.ricky.library.demo.service;
 import com.ricky.library.demo.domain.Book;
 import com.ricky.library.demo.domain.BookList;
 import com.ricky.library.demo.domain.RentInfo;
+import com.ricky.library.demo.domain.ReserveInfo;
 import com.ricky.library.demo.mapper.BookListMapper;
 import com.ricky.library.demo.mapper.BookMapper;
 import com.ricky.library.demo.mapper.RentInfoMapper;
+import com.ricky.library.demo.mapper.ReserveInfoMapper;
 import com.ricky.library.demo.util.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -27,6 +29,18 @@ public class RentService {
 
     @Autowired
     BookListMapper bookListMapper;
+
+    @Autowired
+    ReserveInfoMapper reserveInfoMapper;
+
+    void updateReserveInfo(Integer bookId) {
+        List<ReserveInfo> reserveInfos = reserveInfoMapper.selectByBookId(bookId);
+        for (ReserveInfo r: reserveInfos) {
+            if(r.getReserveAgent().equals("等待"))
+                r.setReserveAgent("成功");
+            return;
+        }
+    }
 
     /**
      * 借书业务
@@ -78,6 +92,18 @@ public class RentService {
                 return  ResultCode.RESULE_DATA_NONE;
             bookList.setListState("在库");
             bookListMapper.updateByPrimaryKeySelective(bookList);
+            // 更新预约情况
+            List<ReserveInfo> reserveInfos = reserveInfoMapper.selectByBookId(bookList.getBookId());
+            for (ReserveInfo r: reserveInfos) {
+                if (r.getReserveAgent().equals("等待")) {
+                    r.setReserveAgent("成功");
+                    r.setListId(ListId);
+                    reserveInfoMapper.updateByPrimaryKeySelective(r);
+                    bookList.setListState("借出");
+                    bookListMapper.updateByPrimaryKeySelective(bookList);
+                    break;
+                }
+            }
         } catch (DataAccessException e) {
             System.out.println(e);
             return ResultCode.INTERFACE_INNER_INVOKE_ERROR;
