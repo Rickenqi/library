@@ -29,6 +29,11 @@ public class BookService {
     @Autowired
     ReserveInfoMapper reserveInfoMapper;
 
+    /**
+     * 添加书目信息
+     * @param book
+     * @return
+     */
     public ResultCode addBook(Book book) {
         book.setBookNum(0);
         try {
@@ -40,6 +45,11 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
+    /**
+     * 删除书目信息
+     * @param book_ISBN
+     * @return
+     */
     public ResultCode deleteBook(String book_ISBN) {
         Book book;
         try {
@@ -54,6 +64,12 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
+    /**
+     * 添加图书信息
+     * @param bookList
+     * @param book_ISBN
+     * @return
+     */
     public ResultCode addBookList(BookList bookList, String book_ISBN) {
         Book book;
         try {

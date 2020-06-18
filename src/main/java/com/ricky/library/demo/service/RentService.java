@@ -44,9 +44,9 @@ public class RentService {
 
     /**
      * 借书业务
-     * @param ListId
-     * @param readerId
-     * @return
+     * @param ListId 所借图书id
+     * @param readerId 所借读者id
+     * @return ResultCode 状态码
      */
     public ResultCode rentBook(Integer ListId, String readerId) {
         Book book;
@@ -81,8 +81,8 @@ public class RentService {
 
     /**
      * 还书业务
-     * @param ListId
-     * @return
+     * @param ListId 图书编号
+     * @return ResultCode状态码
      */
     public ResultCode returnBook(Integer ListId) {
         BookList bookList;
@@ -113,9 +113,9 @@ public class RentService {
 
     /**
      * 查询业务
-     * @param readerId
-     * @param rentInfo
-     * @return
+     * @param readerId 读者id
+     * @param rentInfo 引用传入，得到所需要的结果
+     * @return ResultCode状态码
      */
     public ResultCode getRentInfo(String readerId, List<RentInfo> rentInfo) {
         try {

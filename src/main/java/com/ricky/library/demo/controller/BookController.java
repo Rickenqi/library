@@ -66,8 +66,8 @@ public class BookController {
     }
 
     @GetMapping("/book")
-    String getBook(@RequestParam String ISBN, @RequestParam String book_name,
-                   @RequestParam String book_author, @RequestParam String book_publisher) {
+    String getBook(@RequestParam(required = false) String ISBN, @RequestParam(required = false) String book_name,
+                   @RequestParam(required = false) String book_author, @RequestParam(required = false) String book_publisher) {
         Book book = new Book();
         book.setBookIsbn(ISBN);
         book.setBookName(book_name);
