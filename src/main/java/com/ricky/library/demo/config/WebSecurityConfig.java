@@ -26,6 +26,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/book","/book_info","/list_info").permitAll()
                 .antMatchers("/reserve").hasRole("reader")
                 .antMatchers("/add_book","del_book","/add_list","/del_list","/borrow","/return").hasRole("admin")
@@ -86,3 +89,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 }
+
