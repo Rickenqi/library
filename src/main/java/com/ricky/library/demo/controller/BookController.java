@@ -94,7 +94,8 @@ public class BookController {
 
     @GetMapping("/book")
     String getBook(@RequestParam(required = false) String ISBN, @RequestParam(required = false) String book_name,
-                   @RequestParam(required = false) String book_author, @RequestParam(required = false) String book_publisher) {
+                   @RequestParam(required = false) String book_author, @RequestParam(required = false) String book_publisher,
+                   @RequestParam Integer pagesize, @RequestParam Integer pagenum) {
         Book book = new Book();
         if(ISBN.equals("")) ISBN = null;
         if(book_name.equals("")) book_name = null;
@@ -104,7 +105,7 @@ public class BookController {
         book.setBookName(book_name);
         book.setBookPublisher(book_publisher);
         book.setBookAuthor(book_author);
-        Result result = bookService.getBook(book,1,50);
+        Result result = bookService.getBook(book,pagenum,pagesize);
         return gson.toJson(result);
     }
 

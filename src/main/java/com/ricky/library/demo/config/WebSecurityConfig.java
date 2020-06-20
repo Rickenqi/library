@@ -79,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             httpServletResponse.setContentType("application/json; charset=utf-8");
             PrintWriter writer = httpServletResponse.getWriter();
             Result result = new Result();
+            result.setData(authentication.getPrincipal());
             result.setResultCode(ResultCode.SUCCESS);
             writer.write(gson.toJson(result));
         }
