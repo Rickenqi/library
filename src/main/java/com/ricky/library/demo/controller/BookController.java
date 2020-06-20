@@ -95,7 +95,7 @@ public class BookController {
     @GetMapping("/book")
     String getBook(@RequestParam(required = false) String ISBN, @RequestParam(required = false) String book_name,
                    @RequestParam(required = false) String book_author, @RequestParam(required = false) String book_publisher,
-                   @RequestParam Integer pagesize, @RequestParam Integer pagenum) {
+                   @RequestParam int pagenum, @RequestParam int pagesize) {
         Book book = new Book();
         try {
             if (ISBN.equals("")) ISBN = null;

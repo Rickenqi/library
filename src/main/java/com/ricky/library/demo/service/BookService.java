@@ -132,6 +132,7 @@ public class BookService {
         if(book.getBookPublisher() != null)
             criteria.andBookAuthorEqualTo(book.getBookAuthor());
         bookExample.or(criteria);
+        PageHelper.startPage(pageNum,pageSize);
         try {
             books = bookMapper.selectByExample(bookExample);
             if(books == null) {
@@ -143,7 +144,6 @@ public class BookService {
             result.setResultCode(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
             return result;
         }
-        PageHelper.startPage(pageNum, pageSize);
         result.setData(PageInfo.of(books));
         result.setResultCode(ResultCode.SUCCESS);
         return result;
