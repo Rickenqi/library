@@ -1,14 +1,13 @@
 package com.ricky.library.demo.service;
 
-import com.ricky.library.demo.domain.Book;
-import com.ricky.library.demo.domain.BookInfo;
-import com.ricky.library.demo.domain.BookList;
-import com.ricky.library.demo.domain.ReserveInfo;
+import com.ricky.library.demo.domain.*;
 import com.ricky.library.demo.domain.example.BookExample;
 import com.ricky.library.demo.domain.example.BookListExample;
+import com.ricky.library.demo.domain.example.RentInfoExample;
 import com.ricky.library.demo.domain.example.ReserveInfoExample;
 import com.ricky.library.demo.mapper.BookListMapper;
 import com.ricky.library.demo.mapper.BookMapper;
+import com.ricky.library.demo.mapper.RentInfoMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
 import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
@@ -32,6 +31,8 @@ public class BookService {
     @Autowired
     ReserveInfoMapper reserveInfoMapper;
 
+    @Autowired
+    RentInfoMapper rentInfoMapper;
     /**
      * 添加书目信息
      * @param book
@@ -153,7 +154,7 @@ public class BookService {
         Result result = new Result();
         Book book;
         List<BookList> bookLists;
-        List<ReserveInfo> reserveInfoList = new ArrayList<>();
+        List<RentInfo> rentInfoList = new ArrayList<>();
         try {
             book = bookMapper.selectByISBN(book_ISBN);
             if(book == null)
@@ -174,18 +175,18 @@ public class BookService {
         BookInfo bookInfo = new BookInfo();
         bookInfo.setBook(book); bookInfo.setBookLists(bookLists);
         if(res) {
-            ReserveInfoExample example = new ReserveInfoExample();
+            RentInfoExample example = new RentInfoExample();
             if (list_id != null) {
                 example.createCriteria().andListIdEqualTo(list_id.toString());
-                reserveInfoList = reserveInfoMapper.selectByExample(example);
+                rentInfoList = rentInfoMapper.selectByExample(example);
             }
             else {
                 for (BookList bookList : bookLists) {
                     example.createCriteria().andListIdEqualTo(bookList.getBookId().toString());
-                    reserveInfoList.addAll(reserveInfoMapper.selectByExample(example));
+                    rentInfoList.addAll(rentInfoMapper.selectByExample(example));
                 }
             }
-            bookInfo.setReserveInfoList(reserveInfoList);
+            bookInfo.setRentInfoList(rentInfoList);
         }
         result.setData(bookInfo);
         result.setResultCode(ResultCode.SUCCESS);

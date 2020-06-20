@@ -28,12 +28,12 @@ public class RentServiceTest {
         System.out.println(resultCode);
     }
 
-    @Test
-    public void testRentInfo() {
-        List<RentInfo> rentInfo = new ArrayList<>();
-        rentService.getRentInfo("test1", rentInfo);
-        for (RentInfo r: rentInfo) {
-            System.out.println(r);
-        }
-    }
+//    @Test
+//    public void testRentInfo() {
+//        List<RentInfo> rentInfo = new ArrayList<>();
+//        rentService.getRentInfo("test1", rentInfo);
+//        for (RentInfo r: rentInfo) {
+//            System.out.println(r);
+//        }
+//    }
 }

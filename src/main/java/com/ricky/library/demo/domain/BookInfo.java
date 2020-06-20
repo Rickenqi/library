@@ -11,5 +11,5 @@ import java.util.List;
 public class BookInfo {
     Book book;
     List<BookList> bookLists;
-    List<ReserveInfo> reserveInfoList;
+    List<RentInfo> RentInfoList;
 }
