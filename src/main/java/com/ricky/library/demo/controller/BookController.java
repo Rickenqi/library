@@ -1,5 +1,7 @@
 package com.ricky.library.demo.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricky.library.demo.domain.Book;
@@ -14,6 +16,31 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.Date;
 
+@Data
+class BookInput {
+    @JsonProperty("ISBN")
+    String ISBN;
+    @JsonProperty("book_name")
+    String book_name;
+    @JsonProperty("book_author")
+    String book_author;
+    @JsonProperty("book_publisher")
+    String book_publisher;
+    @JsonProperty("book_pubdate")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    Date book_pubdate;
+}
+
+@Data
+class ListInput {
+    @JsonProperty("ISBN")
+    String ISBN;
+    @JsonProperty("list_id")
+    Integer list_id;
+    @JsonProperty("list_place")
+    String list_place;
+}
+
 @RestController
 public class BookController {
 
@@ -22,12 +49,12 @@ public class BookController {
 
     Gson gson = new GsonBuilder().create();
 
-    @PostMapping("/add_book")
-    String addBook(@RequestBody String ISBN, @RequestBody String book_name, @RequestBody String book_author,
-            @RequestBody String book_publisher, @RequestBody Date book_pubdate) {
+    @PostMapping(value = "/add_book", consumes = "application/json")
+    String addBook(@RequestBody BookInput input) {
+        System.out.println(input);
         Book book = new Book();
-        book.setBookIsbn(ISBN); book.setBookName(book_name); book.setBookAuthor(book_author);
-        book.setBookPublisher(book_publisher); book.setBookPubdate(book_pubdate);
+        book.setBookIsbn(input.getISBN()); book.setBookName(input.getBook_name()); book.setBookAuthor(input.getBook_author());
+        book.setBookPublisher(input.getBook_publisher()); book.setBookPubdate(input.getBook_pubdate());
         Result result = new Result();
         ResultCode code = bookService.addBook(book);
         result.setData(book);
@@ -45,11 +72,11 @@ public class BookController {
     }
 
     @PostMapping("/add_list")
-    String addBookList(@RequestBody String ISBN, @RequestBody Integer list_id, @RequestBody String list_place) {
+    String addBookList(@RequestBody ListInput input) {
         Result result = new Result();
         BookList bookList = new BookList();
-        bookList.setListPlace(list_place); bookList.setListId(list_id);
-        ResultCode code = bookService.addBookList(bookList,ISBN);
+        bookList.setListPlace(input.getList_place()); bookList.setListId(input.getList_id());
+        ResultCode code = bookService.addBookList(bookList,input.getISBN());
         result.setData(bookList);
         result.setResultCode(code);
         return gson.toJson(result);
