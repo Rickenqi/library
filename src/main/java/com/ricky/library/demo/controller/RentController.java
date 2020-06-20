@@ -50,10 +50,7 @@ public class RentController {
 
     @GetMapping("/rent_info")
     String getRentInfo(@RequestParam String reader_id) {
-        List<RentInfo> rentInfoList = new ArrayList<>();
-        ResultCode code = rentService.getRentInfo(reader_id, rentInfoList);
-        Result result = new Result();
-        result.setResultCode(code); result.setData(rentInfoList);
+        Result result = rentService.getRentInfo(reader_id);
         return gson.toJson(result);
     }
 

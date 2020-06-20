@@ -1,6 +1,7 @@
 package com.ricky.library.demo.service;
 
 import com.ricky.library.demo.domain.Book;
+import com.ricky.library.demo.domain.BookInfo;
 import com.ricky.library.demo.domain.BookList;
 import com.ricky.library.demo.domain.ReserveInfo;
 import com.ricky.library.demo.mapper.BookListMapper;
@@ -8,14 +9,18 @@ import com.ricky.library.demo.mapper.BookMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
 import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
+
+@Data
+class ReserveBookInfo {
+    Book book;
+    ReserveInfo reserveInfo;
+}
 
 @Service
 public class ReserveService {
@@ -88,8 +93,21 @@ public class ReserveService {
      */
     public Result getReserve(String readerId ) {
         Result result = new Result();
-        List<ReserveInfo> reserveInfoList = reserveInfoMapper.selectByReaderId(readerId);
-        result.setData(reserveInfoList);
+        List<ReserveInfo> reserveInfoList;
+        List<ReserveBookInfo> infoList = new ArrayList<>();
+        try {
+            reserveInfoList = reserveInfoMapper.selectByReaderId(readerId);
+            for (ReserveInfo info: reserveInfoList) {
+                Book book = bookMapper.selectByPrimaryKey(info.getBookId());
+                ReserveBookInfo bookInfo = new ReserveBookInfo();
+                bookInfo.setBook(book); bookInfo.setReserveInfo(info);
+                infoList.add(bookInfo);
+            }
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+        }
+        result.setData(infoList);
         result.setResultCode(ResultCode.SUCCESS);
         return result;
     }

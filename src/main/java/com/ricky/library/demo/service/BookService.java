@@ -1,7 +1,7 @@
 package com.ricky.library.demo.service;
 
-import com.google.gson.Gson;
 import com.ricky.library.demo.domain.Book;
+import com.ricky.library.demo.domain.BookInfo;
 import com.ricky.library.demo.domain.BookList;
 import com.ricky.library.demo.domain.ReserveInfo;
 import com.ricky.library.demo.domain.example.BookExample;
@@ -12,14 +12,12 @@ import com.ricky.library.demo.mapper.BookMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
 import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,10 +212,4 @@ public class BookService {
 //        result.setResultCode(ResultCode.SUCCESS);
 //        return result;
 //    }
-}
-@Data
-class BookInfo {
-    Book book;
-    List<BookList> bookLists;
-    List<ReserveInfo> reserveInfoList;
 }

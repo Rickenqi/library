@@ -8,15 +8,21 @@ import com.ricky.library.demo.mapper.BookListMapper;
 import com.ricky.library.demo.mapper.BookMapper;
 import com.ricky.library.demo.mapper.RentInfoMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
+import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
+
+@Data
+class RentBookInfo {
+    Book book;
+    RentInfo rentInfo;
+}
+
 
 @Service
 public class RentService {
@@ -114,17 +120,26 @@ public class RentService {
     /**
      * 查询业务
      * @param readerId 读者id
-     * @param rentInfo 引用传入，得到所需要的结果
      * @return ResultCode状态码
      */
-    public ResultCode getRentInfo(String readerId, List<RentInfo> rentInfo) {
+    public Result getRentInfo(String readerId) {
+        List<RentInfo> rentInfoList;
+        List<RentBookInfo> infoList = new ArrayList<>();
+        Result result = new Result();
         try {
-           // 需要引用传值请用addAll
-           rentInfo.addAll(rentInfoMapper.selectByReaderId(readerId));
+           rentInfoList = rentInfoMapper.selectByReaderId(readerId);
+           for (RentInfo rentInfo: rentInfoList) {
+               Book book = bookMapper.selectByPrimaryKey(rentInfo.getBookId());
+               RentBookInfo rentBookInfo = new RentBookInfo();
+               rentBookInfo.setBook(book); rentBookInfo.setRentInfo(rentInfo);
+               infoList.add(rentBookInfo);
+           }
         } catch (DataAccessException e) {
             System.out.println(e);
-            return ResultCode.INTERFACE_INNER_INVOKE_ERROR;
+            return Result.failure(ResultCode.INTERFACE_OUTTER_INVOKE_ERROR);
         }
-        return ResultCode.SUCCESS;
+        result.setData(infoList);
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
     }
 }
