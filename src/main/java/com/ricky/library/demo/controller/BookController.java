@@ -97,10 +97,14 @@ public class BookController {
                    @RequestParam(required = false) String book_author, @RequestParam(required = false) String book_publisher,
                    @RequestParam Integer pagesize, @RequestParam Integer pagenum) {
         Book book = new Book();
-        if(ISBN.equals("")) ISBN = null;
-        if(book_name.equals("")) book_name = null;
-        if(book_author.equals("")) book_author = null;
-        if(book_publisher.equals("")) book_publisher = null;
+        try {
+            if (ISBN.equals("")) ISBN = null;
+            if (book_name.equals("")) book_name = null;
+            if (book_author.equals("")) book_author = null;
+            if (book_publisher.equals("")) book_publisher = null;
+        } catch (Exception e) {
+
+        }
         book.setBookIsbn(ISBN);
         book.setBookName(book_name);
         book.setBookPublisher(book_publisher);
