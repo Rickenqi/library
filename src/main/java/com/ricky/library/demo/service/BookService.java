@@ -1,14 +1,18 @@
 package com.ricky.library.demo.service;
 
+import com.google.gson.Gson;
 import com.ricky.library.demo.domain.Book;
 import com.ricky.library.demo.domain.BookList;
 import com.ricky.library.demo.domain.ReserveInfo;
 import com.ricky.library.demo.domain.example.BookExample;
+import com.ricky.library.demo.domain.example.BookListExample;
+import com.ricky.library.demo.domain.example.ReserveInfoExample;
 import com.ricky.library.demo.mapper.BookListMapper;
 import com.ricky.library.demo.mapper.BookMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
 import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import java.security.cert.Certificate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -145,6 +150,49 @@ public class BookService {
         return result;
     }
 
+    public Result getBookList(String book_ISBN, Integer list_id, boolean res) {
+        BookListExample bookListExample = new BookListExample();
+        Result result = new Result();
+        Book book;
+        List<BookList> bookLists;
+        List<ReserveInfo> reserveInfoList = new ArrayList<>();
+        try {
+            book = bookMapper.selectByISBN(book_ISBN);
+            if(book == null)
+                return Result.failure(ResultCode.DATA_IS_WRONG);
+        } catch (DataAccessException e){
+            System.out.println(e);
+            result.setResultCode(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+            return result;
+        }
+        bookListExample.createCriteria().andBookIdEqualTo(book.getBookId());
+        try {
+            bookLists = bookListMapper.selectByExample(bookListExample);
+        } catch (DataAccessException e){
+            System.out.println(e);
+            result.setResultCode(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+            return result;
+        }
+        BookInfo bookInfo = new BookInfo();
+        bookInfo.setBook(book); bookInfo.setBookLists(bookLists);
+        if(res) {
+            ReserveInfoExample example = new ReserveInfoExample();
+            if (list_id != null) {
+                example.createCriteria().andListIdEqualTo(list_id.toString());
+                reserveInfoList = reserveInfoMapper.selectByExample(example);
+            }
+            else {
+                for (BookList bookList : bookLists) {
+                    example.createCriteria().andListIdEqualTo(bookList.getBookId().toString());
+                    reserveInfoList.addAll(reserveInfoMapper.selectByExample(example));
+                }
+            }
+            bookInfo.setReserveInfoList(reserveInfoList);
+        }
+        result.setData(bookInfo);
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
+    }
 //    Result getAllBooks(int pageNum, int pageSize) {
 //        Result result = new Result();
 //        BookExample bookExample = new BookExample();
@@ -166,4 +214,10 @@ public class BookService {
 //        result.setResultCode(ResultCode.SUCCESS);
 //        return result;
 //    }
+}
+@Data
+class BookInfo {
+    Book book;
+    List<BookList> bookLists;
+    List<ReserveInfo> reserveInfoList;
 }
