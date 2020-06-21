@@ -11,6 +11,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class RentController {
     Gson gson = new GsonBuilder().create();
 
     @PostMapping("/borrow")
-    String borrowBook(@RequestBody BorrowInput input) {
+    String borrowBook(@RequestBody BorrowInput input) throws MessagingException {
         Result result = new Result();
         ResultCode code = rentService.rentBook(input.getList_id(), input.getReader_id());
         result.setData(input.getList_id());

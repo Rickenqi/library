@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,7 @@ public class RentServiceTest {
     RentService rentService;
 
     @Test
-    public void testRentBook() {
+    public void testRentBook() throws MessagingException {
         ResultCode resultCode = rentService.rentBook(1,"test1");
         System.out.println(resultCode);
     }

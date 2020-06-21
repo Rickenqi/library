@@ -60,9 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/book","/book_info","/list_info").permitAll()
-                .antMatchers("/reserve").hasRole("reader")
-                .antMatchers("/add_book","del_book","/add_list","/del_list","/borrow","/return").hasRole("admin")
+//                .antMatchers("/book","/book_info","/list_info").permitAll()
+//                .antMatchers("/reserve").hasRole("reader")
+//                .antMatchers("/add_book","del_book","/add_list","/del_list","/borrow","/return").hasRole("admin")
                 .and()
                 .formLogin().loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password")

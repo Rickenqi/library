@@ -1,13 +1,7 @@
 package com.ricky.library.demo.service;
 
-import com.ricky.library.demo.domain.Book;
-import com.ricky.library.demo.domain.BookList;
-import com.ricky.library.demo.domain.RentInfo;
-import com.ricky.library.demo.domain.ReserveInfo;
-import com.ricky.library.demo.mapper.BookListMapper;
-import com.ricky.library.demo.mapper.BookMapper;
-import com.ricky.library.demo.mapper.RentInfoMapper;
-import com.ricky.library.demo.mapper.ReserveInfoMapper;
+import com.ricky.library.demo.domain.*;
+import com.ricky.library.demo.mapper.*;
 import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
 import lombok.Data;
@@ -15,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.*;
 
 @Data
@@ -39,6 +34,12 @@ public class RentService {
     @Autowired
     ReserveInfoMapper reserveInfoMapper;
 
+    @Autowired
+    MailService mailService;
+
+    @Autowired
+    ReaderMapper readerMapper;
+
     void updateReserveInfo(Integer bookId) {
         List<ReserveInfo> reserveInfos = reserveInfoMapper.selectByBookId(bookId);
         for (ReserveInfo r: reserveInfos) {
@@ -54,7 +55,7 @@ public class RentService {
      * @param readerId 所借读者id
      * @return ResultCode 状态码
      */
-    public ResultCode rentBook(Integer ListId, String readerId) {
+    public ResultCode rentBook(Integer ListId, String readerId) throws MessagingException {
         Book book;
         BookList bookList;
         RentInfo rentInfo = new RentInfo();
@@ -82,6 +83,8 @@ public class RentService {
             System.out.println(e);
             return ResultCode.INTERFACE_INNER_INVOKE_ERROR;
         }
+        Reader reader = readerMapper.selectByPrimaryKey(readerId);
+        mailService.sendMailRent(reader.getReaderEmail(),readerId,book.getBookName(),return_date.toString());
         return ResultCode.SUCCESS;
     }
 

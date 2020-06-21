@@ -10,6 +10,8 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 @Data
 class ReserveInput {
     @JsonProperty("reader_id")
@@ -29,7 +31,7 @@ public class ReserveController {
     Gson gson = new GsonBuilder().create();
 
     @RequestMapping("/reserve")
-    String reserveBook(@RequestBody ReserveInput input) {
+    String reserveBook(@RequestBody ReserveInput input) throws MessagingException {
         Result result = new Result();
         ResultCode code = reserveService.addReserve(input.getISBN(),input.getReserve_time(),input.getReader_id());
         result.setData(input.getISBN());

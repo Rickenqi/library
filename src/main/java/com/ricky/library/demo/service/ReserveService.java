@@ -1,11 +1,9 @@
 package com.ricky.library.demo.service;
 
-import com.ricky.library.demo.domain.Book;
-import com.ricky.library.demo.domain.BookInfo;
-import com.ricky.library.demo.domain.BookList;
-import com.ricky.library.demo.domain.ReserveInfo;
+import com.ricky.library.demo.domain.*;
 import com.ricky.library.demo.mapper.BookListMapper;
 import com.ricky.library.demo.mapper.BookMapper;
+import com.ricky.library.demo.mapper.ReaderMapper;
 import com.ricky.library.demo.mapper.ReserveInfoMapper;
 import com.ricky.library.demo.util.result.Result;
 import com.ricky.library.demo.util.result.ResultCode;
@@ -14,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.*;
 
 @Data
@@ -34,6 +33,12 @@ public class ReserveService {
     @Autowired
     BookListMapper bookListMapper;
 
+    @Autowired
+    ReaderMapper readerMapper;
+
+    @Autowired
+    MailService mailService;
+
     void updateReserveInfo(Integer bookId) {
         List<ReserveInfo> reserveInfos = reserveInfoMapper.selectByBookId(bookId);
         for (ReserveInfo r: reserveInfos) {
@@ -50,7 +55,7 @@ public class ReserveService {
      * @param readerId 预约读者Id
      * @return
      */
-    public ResultCode addReserve(String book_ISBN, int days, String readerId) {
+    public ResultCode addReserve(String book_ISBN, int days, String readerId) throws MessagingException {
         Book book;
         ReserveInfo reserveInfo = new ReserveInfo();
         // 生成借书日期，还书日期
@@ -83,6 +88,8 @@ public class ReserveService {
             System.out.println(e);
             return ResultCode.INTERFACE_INNER_INVOKE_ERROR;
         }
+        Reader reader = readerMapper.selectByPrimaryKey(readerId);
+        mailService.sendMailReserve(reader.getReaderEmail(),readerId,book.getBookName());
         return ResultCode.SUCCESS;
     }
 
