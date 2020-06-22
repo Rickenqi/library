@@ -14,6 +14,6 @@ public class MailServiceTest {
 
     @Test
     void sendMailTest() throws MessagingException {
-        mailService.sendMail("1448232282@qq.com","Mr.quin","肥仔传");
+        // mailService.sendMail("1448232282@qq.com","Mr.quin","肥仔传");
     }
 }

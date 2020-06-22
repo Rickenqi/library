@@ -33,6 +33,7 @@ public class BookService {
 
     @Autowired
     RentInfoMapper rentInfoMapper;
+
     /**
      * 添加书目信息
      * @param book
@@ -104,6 +105,12 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
+    /**
+     * 删除图书信息
+     * @param listId
+     * @param bookList
+     * @return
+     */
     public ResultCode deleteBookList(Integer listId, BookList bookList) {
         try {
             bookList = bookListMapper.selectByPrimaryKey(listId);
@@ -117,6 +124,13 @@ public class BookService {
         return ResultCode.SUCCESS;
     }
 
+    /**
+     * 获取图书目录信息
+     * @param book
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     public Result getBook(Book book, int pageNum, int pageSize) {
         BookExample bookExample = new BookExample();
         Result result = new Result();
@@ -149,6 +163,13 @@ public class BookService {
         return result;
     }
 
+    /**
+     * 获取图书详细信息
+     * @param book_ISBN
+     * @param list_id
+     * @param res
+     * @return
+     */
     public Result getBookList(String book_ISBN, Integer list_id, boolean res) {
         BookListExample bookListExample = new BookListExample();
         Result result = new Result();

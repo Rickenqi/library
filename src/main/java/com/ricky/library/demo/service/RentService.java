@@ -74,6 +74,8 @@ public class RentService {
             book = bookMapper.selectByPrimaryKey(bookList.getBookId());
             if(bookList == null)
                 return  ResultCode.RESULE_DATA_NONE;
+            if(bookList.getListState().equals("借出"))
+                return  ResultCode.DATA_ALREADY_EXISTED;
             rentInfo.setReaderId(readerId); rentInfo.setListId(bookList.getListId()); rentInfo.setBookId(bookList.getBookId());
             rentInfo.setBorrowDate(borrow_date); rentInfo.setReturnDate(return_date); rentInfo.setBookIsbn(book.getBookIsbn());
             rentInfoMapper.insertSelective(rentInfo);
@@ -99,6 +101,8 @@ public class RentService {
             bookList = bookListMapper.selectByPrimaryKey(ListId);
             if(bookList == null)
                 return  ResultCode.RESULE_DATA_NONE;
+            if(bookList.getListState().equals("在库"))
+                return ResultCode.DATA_ALREADY_EXISTED;
             bookList.setListState("在库");
             bookListMapper.updateByPrimaryKeySelective(bookList);
             // 更新预约情况
