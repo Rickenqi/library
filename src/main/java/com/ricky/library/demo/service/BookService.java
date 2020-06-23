@@ -16,11 +16,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(rollbackFor = DataAccessException.class)
 public class BookService {
     @Autowired
     BookMapper bookMapper;

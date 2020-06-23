@@ -8,6 +8,8 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.*;
@@ -19,6 +21,7 @@ class RentBookInfo {
 }
 
 
+@Transactional(rollbackFor = DataAccessException.class)
 @Service
 public class RentService {
 

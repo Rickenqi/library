@@ -24,7 +24,7 @@ public class MailService {
      * @param date 还书日期
      * @throws MessagingException
      */
-    @Scheduled(initialDelay = 1000)
+    // @Scheduled(initialDelay = 1000)
     public void sendMailRent(String address, String name, String book, String date) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper help = new MimeMessageHelper(mimeMessage,true);
